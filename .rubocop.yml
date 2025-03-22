@@ -1,0 +1,36 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  EnabledByDefault: true
+  TargetRubyVersion: 3.1
+  SuggestExtensions: false
+
+Bundler/GemComment:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Style/Copyright:
+  Enabled: false
+
+Style/MissingElse:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Layout/MultilineAssignmentLayout:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 180
+
+Lint/ConstantResolution:
+  Enabled: false
+
+Lint/SuppressedException:
+  Enabled: false
