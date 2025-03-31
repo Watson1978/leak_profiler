@@ -18,7 +18,7 @@ class LeakProfiler
     self
   end
 
-  def report_memory_usage(interval: 1)
+  def report_rss(interval: 1)
     LeakProfiler::MemoryUsage.new(output_dir: @output_dir, interval: interval).report
 
     self

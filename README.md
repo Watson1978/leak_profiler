@@ -22,7 +22,7 @@ gem install leak_profiler
 ```ruby
 require 'leak_profiler'
 
-LeakProfiler.new.report.report_memory_usage
+LeakProfiler.new.report.report_rss
 
 # ... your code that may have memory leaks ...
 ```
