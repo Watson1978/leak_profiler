@@ -3,6 +3,7 @@
 require_relative 'allocations'
 require_relative 'memory_usage'
 require 'fileutils'
+require 'logger'
 
 class LeakProfiler
   def initialize(output_dir: './leak_profiler')

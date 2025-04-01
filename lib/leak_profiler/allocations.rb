@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'objspace'
-require 'logger'
 
 class LeakProfiler
   class Allocations
