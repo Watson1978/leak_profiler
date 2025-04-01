@@ -25,4 +25,6 @@ Gem::Specification.new do |spec|
     end
   end
   spec.require_paths = ['lib']
+
+  spec.add_dependency 'logger', '~> 1.7'
 end
