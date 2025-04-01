@@ -5,6 +5,7 @@ Gem::Specification.new do |spec|
   spec.version = '0.1.1'
   spec.authors = ['Watson']
   spec.email = ['watson1978@gmail.com']
+  spec.license = 'MIT'
 
   spec.summary = 'A simple profiler for Ruby to detect memory leak.'
   spec.description = 'A simple profiler for Ruby to detect memory leak.'
