@@ -81,12 +81,12 @@ elapsed [sec],memory usage (rss) [MB]
 3,55.90234375
 ```
 
+* Arguments:
+  * `interval` (default `1`): The interval in seconds for report.
+
 > [!WARNING]
 > This uses this uses `ps` command for measurement.
 > So, this is not supported Windows platform.
-
-* Arguments:
-  * `interval` (default `1`): The interval in seconds for report.
 
 ## Contributing
 
