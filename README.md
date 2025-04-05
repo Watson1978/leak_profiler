@@ -66,6 +66,10 @@ Referrers ----------------------------------------------------------------------
   * `max_referrers` (default `3`): Outputs the number of references in order of the amount of memory used.
   * `report` (defalut `nil`): Specify the logger object if you want to use custom logger.
 
+> [!NOTE]
+> This uses `ObjectSpace.allocation_sourcefile` method to measurement.
+> It can't get an object allocated information in Ruby core API / C extension library API.
+
 ### `LeakProfiler#report_rss`
 This method outputs the RSS (Resident Set Size) of the process with CSV format, like:
 
@@ -76,6 +80,10 @@ elapsed [sec],memory usage (rss) [MB]
 2,55.02734375
 3,55.90234375
 ```
+
+> [!WARNING]
+> This uses this uses `ps` command for measurement.
+> So, this is not supported Windows platform.
 
 * Arguments:
   * `interval` (default `1`): The interval in seconds for report.
