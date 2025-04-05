@@ -3,13 +3,13 @@
 class LeakProfiler
   class MemoryUsage
     def initialize(output_dir:, interval:)
-      raise "Not supported Windows platform because this uses `ps` command for measurement." if /mingw/.match?(RUBY_PLATFORM)
-
       @output_dir = output_dir
       @interval = interval
     end
 
     def report
+      raise('Not supported Windows platform because this uses `ps` command for measurement.') if /mingw/.match?(RUBY_PLATFORM)
+
       pid = Process.pid
 
       Thread.new do
