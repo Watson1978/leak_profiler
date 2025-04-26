@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'allocations'
+require_relative 'memory_memsize'
 require_relative 'memory_usage'
 require 'fileutils'
 require 'logger'
@@ -21,6 +22,12 @@ class LeakProfiler
 
   def report_rss(interval: 1)
     LeakProfiler::MemoryUsage.new(output_dir: @output_dir, interval: interval).report
+
+    self
+  end
+
+  def report_memsize(interval: 1)
+    LeakProfiler::MemoryMemsize.new(output_dir: @output_dir, interval: interval).report
 
     self
   end

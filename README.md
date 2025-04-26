@@ -88,6 +88,22 @@ elapsed [sec],memory usage (rss) [MB]
 > This uses this uses `ps` command for measurement.
 > So, this is not supported Windows platform.
 
+
+### `LeakProfiler#report_memsize`
+This method outputs `ObjectSpace.memsize_of_all` values with CSV format, like:
+
+```
+elapsed [sec],ObjectSpace.memsize_of_all values [MB]
+0,11.435378074645996
+1,12.78317642211914
+2,11.785511016845703
+3,11.785999298095703
+4,11.786487579345703
+```
+
+* Arguments:
+  * `interval` (default `1`): The interval in seconds for report.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/Watson1978/leak_profiler.
