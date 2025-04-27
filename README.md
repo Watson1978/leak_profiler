@@ -27,7 +27,7 @@ LeakProfiler.new.report.report_rss
 # ... your code that may have memory leaks ...
 ```
 
-### `LeakProfiler#new`
+### `LeakProfiler.new`
 * Arguments:
   * `output_dir` (default `./leak_profiler`): Specify the output directory for report.
 
