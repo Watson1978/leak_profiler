@@ -2,9 +2,12 @@
 
 class LeakProfiler
   class MemoryUsage
-    def initialize(output_dir:, interval:)
+    attr_reader :thread
+
+    def initialize(output_dir:, interval:, filename: nil)
       @output_dir = output_dir
       @interval = interval
+      @filename = filename || "memory-usage-#{Process.pid}.csv"
     end
 
     def report
@@ -12,9 +15,9 @@ class LeakProfiler
 
       pid = Process.pid
 
-      Thread.new do
+      @thread = Thread.start do
         i = 0
-        File.open(File.expand_path(File.join(@output_dir, "memory-usage-#{pid}.csv")), 'w') do |f|
+        File.open(File.expand_path(File.join(@output_dir, @filename)), 'w') do |f|
           f.puts('elapsed [sec],memory usage (rss) [MB]')
 
           loop do

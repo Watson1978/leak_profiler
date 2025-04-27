@@ -9,26 +9,39 @@ require 'logger'
 class LeakProfiler
   def initialize(output_dir: './leak_profiler')
     @output_dir = output_dir
+    @threads = []
 
     FileUtils.mkdir_p(@output_dir)
   end
 
-  def report(interval: 30, max_allocations: 10, max_referrers: 3, logger: nil)
-    logger ||= Logger.new(File.join(@output_dir, "leak_profiler-#{Process.pid}.log"))
-    LeakProfiler::Allocations.new(logger: logger, interval: interval, max_allocations: max_allocations, max_referrers: max_referrers).report
+  def report(interval: 30, max_allocations: 10, max_referrers: 3, logger: nil, filename: nil)
+    filename ||= "leak_profiler-#{Process.pid}.log"
+    logger ||= Logger.new(File.join(@output_dir, filename))
+    profiler = LeakProfiler::Allocations.new(logger: logger, interval: interval, max_allocations: max_allocations, max_referrers: max_referrers)
+    profiler.report
+    @threads << profiler.thread
 
     self
   end
 
-  def report_rss(interval: 1)
-    LeakProfiler::MemoryUsage.new(output_dir: @output_dir, interval: interval).report
+  def report_rss(interval: 1, filename: nil)
+    profiler = LeakProfiler::MemoryUsage.new(output_dir: @output_dir, interval: interval, filename: filename)
+    profiler.report
+    @threads << profiler.thread
 
     self
   end
 
-  def report_memsize(interval: 1)
-    LeakProfiler::MemoryMemsize.new(output_dir: @output_dir, interval: interval).report
+  def report_memsize(interval: 1, filename: nil)
+    profiler = LeakProfiler::MemoryMemsize.new(output_dir: @output_dir, interval: interval, filename: filename)
+    profiler.report
+    @threads << profiler.thread
 
     self
+  end
+
+  def shutdown
+    @threads.each(&:kill)
+    @threads.each(&:join)
   end
 end

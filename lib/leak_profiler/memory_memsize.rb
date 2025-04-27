@@ -4,17 +4,18 @@ require 'objspace'
 
 class LeakProfiler
   class MemoryMemsize
-    def initialize(output_dir:, interval:)
+    attr_reader :thread
+
+    def initialize(output_dir:, interval:, filename: nil)
       @output_dir = output_dir
       @interval = interval
+      @filename = filename || "memory-memsize-#{Process.pid}.csv"
     end
 
     def report
-      pid = Process.pid
-
-      Thread.new do
+      @thread = Thread.start do
         i = 0
-        File.open(File.expand_path(File.join(@output_dir, "memory-memsize-#{pid}.csv")), 'w') do |f|
+        File.open(File.expand_path(File.join(@output_dir, @filename)), 'w') do |f|
           f.puts('elapsed [sec],ObjectSpace.memsize_of_all values [MB]')
 
           loop do

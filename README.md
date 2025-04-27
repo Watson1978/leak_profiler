@@ -64,7 +64,8 @@ Referrers ----------------------------------------------------------------------
   * `interval` (default `30`): The interval in seconds for report.
   * `max_allocations` (default `10`): Outputs the specified number of objects that use a lot of memory.
   * `max_referrers` (default `3`): Outputs the number of references in order of the amount of memory used.
-  * `report` (defalut `nil`): Specify the logger object if you want to use custom logger.
+  * `logger` (defalut `nil`): Specify the logger object if you want to use custom logger.
+  * `filename` (defalut `nil`): Specify the filename if you want to use custom filename.
 
 > [!WARNING]
 > This uses `ObjectSpace.allocation_sourcefile` method to measurement.
@@ -83,6 +84,7 @@ elapsed [sec],memory usage (rss) [MB]
 
 * Arguments:
   * `interval` (default `1`): The interval in seconds for report.
+  * `filename` (defalut `nil`): Specify the filename if you want to use custom filename.
 
 > [!WARNING]
 > This uses this uses `ps` command for measurement.
@@ -103,6 +105,7 @@ elapsed [sec],ObjectSpace.memsize_of_all values [MB]
 
 * Arguments:
   * `interval` (default `1`): The interval in seconds for report.
+  * `filename` (defalut `nil`): Specify the filename if you want to use custom filename.
 
 ## Contributing
 

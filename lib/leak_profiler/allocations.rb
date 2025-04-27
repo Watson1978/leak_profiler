@@ -4,6 +4,8 @@ require 'objspace'
 
 class LeakProfiler
   class Allocations
+    attr_reader :thread
+
     def initialize(logger:, interval:, max_allocations:, max_referrers:)
       @logger = logger
       @interval = interval
@@ -12,7 +14,7 @@ class LeakProfiler
     end
 
     def report
-      Thread.start do
+      @thread = Thread.start do
         loop do
           allocations = {}
 
