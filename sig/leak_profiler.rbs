@@ -1,0 +1,10 @@
+class LeakProfiler
+  def initialize: (?output_dir: String) -> void
+
+  # TODO: Use valid type for logger
+  def report: (?interval: Integer, ?max_allocations: Integer, ?max_referrers: Integer, ?logger: Object) -> self
+
+  def report_rss: (?interval: Integer) -> self
+
+  def report_memsize: (?interval: Integer) -> self
+end
