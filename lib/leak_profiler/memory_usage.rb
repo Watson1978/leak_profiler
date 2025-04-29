@@ -23,6 +23,7 @@ class LeakProfiler
           loop do
             rss = Integer(`ps -o rss= -p #{pid}`) / 1024.0
             f.puts("#{i},#{rss}")
+            f.fsync
             i += @interval
             sleep(@interval)
           end

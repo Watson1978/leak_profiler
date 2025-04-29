@@ -20,8 +20,8 @@ class LeakProfiler
 
           loop do
             memsize = Float(ObjectSpace.memsize_of_all) / (1024 * 1024)
-
             f.puts("#{i},#{memsize}")
+            f.fsync
             i += @interval
             sleep(@interval)
           end
