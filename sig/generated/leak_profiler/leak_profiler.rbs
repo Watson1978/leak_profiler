@@ -1,0 +1,27 @@
+# Generated from lib/leak_profiler/leak_profiler.rb with RBS::Inline
+
+class LeakProfiler
+  # @rbs output_dir: String
+  # @rbs return: void
+  def initialize: (?output_dir: String) -> void
+
+  # @rbs interval: Integer
+  # @rbs max_allocations: Integer
+  # @rbs max_referrers: Integer
+  # @rbs logger: untyped
+  # @rbs filename: String
+  # @rbs return: self
+  def report: (?interval: Integer, ?max_allocations: Integer, ?max_referrers: Integer, ?logger: untyped, ?filename: String) -> self
+
+  # @rbs interval: Integer
+  # @rbs filename: String
+  # @rbs return: self
+  def report_rss: (?interval: Integer, ?filename: String) -> self
+
+  # @rbs interval: Integer
+  # @rbs filename: String
+  # @rbs return: self
+  def report_memsize: (?interval: Integer, ?filename: String) -> self
+
+  def shutdown: () -> untyped
+end

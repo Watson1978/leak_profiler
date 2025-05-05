@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rbs_inline: enabled
+
 require_relative 'allocations'
 require_relative 'memory_memsize'
 require_relative 'memory_usage'
@@ -7,6 +9,8 @@ require 'fileutils'
 require 'logger'
 
 class LeakProfiler
+  # @rbs output_dir: String
+  # @rbs return: void
   def initialize(output_dir: './leak_profiler')
     @output_dir = output_dir
     @threads = []
@@ -14,6 +18,12 @@ class LeakProfiler
     FileUtils.mkdir_p(@output_dir)
   end
 
+  # @rbs interval: Integer
+  # @rbs max_allocations: Integer
+  # @rbs max_referrers: Integer
+  # @rbs logger: untyped
+  # @rbs filename: String
+  # @rbs return: self
   def report(interval: 30, max_allocations: 10, max_referrers: 3, logger: nil, filename: nil)
     filename ||= "leak_profiler-#{Process.pid}.log"
     logger ||= Logger.new(File.join(@output_dir, filename))
@@ -24,6 +34,9 @@ class LeakProfiler
     self
   end
 
+  # @rbs interval: Integer
+  # @rbs filename: String
+  # @rbs return: self
   def report_rss(interval: 1, filename: nil)
     profiler = LeakProfiler::MemoryUsage.new(output_dir: @output_dir, interval: interval, filename: filename)
     profiler.report
@@ -32,6 +45,9 @@ class LeakProfiler
     self
   end
 
+  # @rbs interval: Integer
+  # @rbs filename: String
+  # @rbs return: self
   def report_memsize(interval: 1, filename: nil)
     profiler = LeakProfiler::MemoryMemsize.new(output_dir: @output_dir, interval: interval, filename: filename)
     profiler.report
