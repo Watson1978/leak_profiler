@@ -1,0 +1,14 @@
+# Generated from lib/leak_profiler/memory_memsize.rb with RBS::Inline
+
+class LeakProfiler
+  class MemoryMemsize
+    attr_reader thread: untyped
+
+    # @rbs output_dir: String
+    # @rbs interval: Integer
+    # @rbs filename: String
+    def initialize: (output_dir: String, interval: Integer, ?filename: String) -> untyped
+
+    def report: () -> untyped
+  end
+end

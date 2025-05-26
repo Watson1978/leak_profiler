@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
     end
   end
   spec.require_paths = ['lib']
+  spec.extensions << 'ext/leak_profiler/extconf.rb'
 
   spec.add_dependency('logger', '~> 1.7')
 end

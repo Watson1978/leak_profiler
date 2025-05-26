@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
+# rbs_inline: enabled
+
 require 'objspace'
 
 class LeakProfiler
   class Allocations
     attr_reader :thread
 
+    # @rbs logger: untyped
+    # @rbs interval: Integer
+    # @rbs max_allocations: Integer
+    # @rbs max_referrers: Integer
     def initialize(logger:, interval:, max_allocations:, max_referrers:)
       @logger = logger
       @interval = interval

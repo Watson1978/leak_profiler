@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
+# rbs_inline: enabled
+
 require 'objspace'
 
 class LeakProfiler
   class MemoryMemsize
     attr_reader :thread
 
+    # @rbs output_dir: String
+    # @rbs interval: Integer
+    # @rbs filename: String
     def initialize(output_dir:, interval:, filename: nil)
       @output_dir = output_dir
       @interval = interval
