@@ -86,11 +86,6 @@ elapsed [sec],memory usage (rss) [MB]
   * `interval` (default `1`): The interval in seconds for report.
   * `filename` (defalut `nil`): Specify the filename if you want to use custom filename.
 
-> [!WARNING]
-> This uses this uses `ps` command for measurement.
-> So, this is not supported Windows platform.
-
-
 ### `LeakProfiler#report_memsize`
 This method outputs `ObjectSpace.memsize_of_all` values with CSV format, like:
 
