@@ -14,6 +14,9 @@ Metrics:
 Style/Copyright:
   Enabled: false
 
+Style/GlobalVars:
+  Enabled: false
+
 Style/ImplicitRuntimeError:
   Enabled: false
 

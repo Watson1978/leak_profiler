@@ -8,3 +8,10 @@
 /tmp/
 
 Gemfile.lock
+/ext/leak_profiler/*.bundle
+/ext/leak_profiler/*.so
+/ext/leak_profiler/*.o
+/ext/leak_profiler/mkmf.log
+/ext/leak_profiler/Makefile
+/lib/*.so
+/lib/*.bundle

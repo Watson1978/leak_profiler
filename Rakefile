@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 require 'bundler/gem_tasks'
+require 'rake/extensiontask'
 require 'rake/testtask'
 
-task default: :test
+task default: %i[compile test]
+
+Rake::ExtensionTask.new('leak_profiler_ext') do |ext|
+  ext.ext_dir = 'ext/leak_profiler'
+end
 
 Rake::TestTask.new do |task|
   task.pattern = 'test/test_*.rb'
