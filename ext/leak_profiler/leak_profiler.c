@@ -8,7 +8,7 @@
 
 static VALUE leak_profiler_max_rss(VALUE self)
 {
-        PROCESS_MEMORY_COUNTERS pmc;
+    PROCESS_MEMORY_COUNTERS pmc;
     if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
         rb_sys_fail("GetProcessMemoryInfo");
     }
