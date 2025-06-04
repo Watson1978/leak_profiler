@@ -22,7 +22,7 @@ class LeakProfiler
           f.puts('elapsed [sec],memory usage (rss) [MB]')
 
           loop do
-            rss = LeakProfiler::MemoryUsage.max_rss / 1024.0
+            rss = LeakProfiler::MemoryUsage.rss / 1024.0
             f.puts("#{i},#{rss}")
             f.fsync
             i += @interval

@@ -1,5 +1,5 @@
 class LeakProfiler
   class MemoryUsage
-    def self.max_rss: () -> Integer
+    def self.rss: () -> Integer
   end
 end
