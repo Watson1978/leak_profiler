@@ -46,6 +46,10 @@ class LeakProfiler
           report_allocations_class(allocations_by_class)
           report_allocations(allocations)
           report_referrer_objects(allocations)
+
+          allocations.each_value(&:clear)
+          allocations.clear
+          allocations_by_class.clear
         end
       end
     end
