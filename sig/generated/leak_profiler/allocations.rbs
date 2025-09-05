@@ -14,6 +14,8 @@ class LeakProfiler
 
     private
 
+    def report_allocations_class: (untyped allocations_by_class) -> untyped
+
     def report_allocations: (untyped allocations) -> untyped
 
     def report_referrer_objects: (untyped allocations) -> untyped

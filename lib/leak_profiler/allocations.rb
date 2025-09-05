@@ -22,13 +22,16 @@ class LeakProfiler
     def report
       @thread = Thread.start do
         loop do
-          allocations = {}
-
           ObjectSpace.trace_object_allocations_start
           sleep(@interval)
           ObjectSpace.trace_object_allocations_stop
 
+          allocations = {}
+          allocations_by_class = Hash.new { |h, k| h[k] = 0 }
+
           ObjectSpace.each_object.each do |obj|
+            allocations_by_class[obj.class] += ObjectSpace.memsize_of(obj)
+
             key = allocated_location(obj)
             next unless key
 
@@ -40,6 +43,7 @@ class LeakProfiler
             allocations[key][:sample_object] = obj
           end
 
+          report_allocations_class(allocations_by_class)
           report_allocations(allocations)
           report_referrer_objects(allocations)
         end
@@ -47,6 +51,16 @@ class LeakProfiler
     end
 
     private
+
+    def report_allocations_class(allocations_by_class)
+      return if @max_allocations <= 0
+
+      @logger.add(Logger::Severity::INFO, "Allocations by class #{"~" * 80}")
+      allocations_by_class.sort_by { |_, v| -v }
+                          .take(@max_allocations).each do |klass, value|
+        @logger.add(Logger::Severity::INFO, "#{klass} retains #{value} bytes")
+      end
+    end
 
     def report_allocations(allocations)
       return if @max_allocations <= 0
