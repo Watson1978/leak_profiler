@@ -23,6 +23,9 @@ Style/ImplicitRuntimeError:
 Style/MissingElse:
   Enabled: false
 
+Style/RescueModifier:
+  Enabled: false
+
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
