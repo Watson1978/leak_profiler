@@ -13,7 +13,7 @@ static VALUE leak_profiler_rss(VALUE self)
     if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
         rb_sys_fail("GetProcessMemoryInfo");
     }
-    return LONG2NUM(pmc.PeakWorkingSetSize / 1024);
+    return LONG2NUM(pmc.WorkingSetSize / 1024);
 }
 
 #elif defined(__APPLE__)
