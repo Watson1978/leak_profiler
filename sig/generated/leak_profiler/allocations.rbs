@@ -25,5 +25,7 @@ class LeakProfiler
     def allocated_location: (untyped obj) -> untyped
 
     def sort: (untyped allocations) -> untyped
+
+    def obj_class: (untyped obj) -> untyped
   end
 end
