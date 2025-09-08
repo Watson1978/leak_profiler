@@ -30,7 +30,8 @@ class LeakProfiler
           allocations_by_class = Hash.new { |h, k| h[k] = 0 }
 
           ObjectSpace.each_object.each do |obj|
-            allocations_by_class[obj.class] += ObjectSpace.memsize_of(obj)
+            klass = obj_class(obj)
+            allocations_by_class[klass] += ObjectSpace.memsize_of(obj)
 
             key = allocated_location(obj)
             next unless key
@@ -50,6 +51,8 @@ class LeakProfiler
           allocations.each_value(&:clear)
           allocations.clear
           allocations_by_class.clear
+        rescue StandardError => e
+          @logger.add(Logger::Severity::ERROR, "Error occurred: #{e.message}, backtrace: #{e.backtrace.join("\n")}")
         end
       end
     end
@@ -83,7 +86,8 @@ class LeakProfiler
         referrer_objects = detect_referrer_objects(value[:sample_object])
 
         logs = referrer_objects.map do |r|
-          "    #{r[:referrer_object].class} (allocated at #{r[:referrer_object_allocated_line]})"
+          klass = obj_class(r[:referrer_object])
+          "    #{klass} (allocated at #{r[:referrer_object_allocated_line]})"
         end
 
         @logger.add(Logger::Severity::INFO, "#{key} object is referred at:")
@@ -118,6 +122,10 @@ class LeakProfiler
 
     def sort(allocations)
       allocations.sort_by { |_, v| -v[:metrics][:bytes] }
+    end
+
+    def obj_class(obj)
+      obj.respond_to?(:class) ? obj.class : BasicObject
     end
   end
 end
