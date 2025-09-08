@@ -101,7 +101,7 @@ class LeakProfiler
       ObjectSpace.each_object.each do |obj|
         r = ObjectSpace.reachable_objects_from(obj)
         begin
-          if r&.include?(object)
+          if r&.any? { |o| o.equal?(object) }
             key = allocated_location(obj)
             next unless key
 
