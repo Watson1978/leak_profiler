@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = 'leak_profiler'
-  spec.version = '0.7.3'
+  spec.version = '0.7.4'
   spec.authors = ['Watson']
   spec.email = ['watson1978@gmail.com']
   spec.license = 'MIT'
