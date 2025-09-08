@@ -30,15 +30,18 @@ class LeakProfiler
           allocations_by_class = Hash.new { |h, k| h[k] = 0 }
 
           ObjectSpace.each_object.each do |obj|
-            klass = obj_class(obj)
-            allocations_by_class[klass] += ObjectSpace.memsize_of(obj) rescue 0
+            begin
+              klass = obj_class(obj)
+              allocations_by_class[klass] += ObjectSpace.memsize_of(obj)
+            rescue StandardError
+            end
 
             key = allocated_location(obj)
             next unless key
 
             allocations[key][:metrics] ||= Hash.new { |h, k| h[k] = 0 }
             allocations[key][:metrics][:count] += 1
-            allocations[key][:metrics][:bytes] += ObjectSpace.memsize_of(obj) rescue 0
+            allocations[key][:metrics][:bytes] += ObjectSpace.memsize_of(obj)
 
             allocations[key][:sample_object] = obj
           end
