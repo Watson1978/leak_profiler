@@ -26,7 +26,7 @@ class LeakProfiler
           sleep(@interval)
           ObjectSpace.trace_object_allocations_stop
 
-          allocations = {}
+          allocations = Hash.new { |h, k| h[k] = {} }
           allocations_by_class = Hash.new { |h, k| h[k] = 0 }
 
           ObjectSpace.each_object.each do |obj|
@@ -36,7 +36,6 @@ class LeakProfiler
             key = allocated_location(obj)
             next unless key
 
-            allocations[key] ||= {}
             allocations[key][:metrics] ||= Hash.new { |h, k| h[k] = 0 }
             allocations[key][:metrics][:count] += 1
             allocations[key][:metrics][:bytes] += ObjectSpace.memsize_of(obj)
