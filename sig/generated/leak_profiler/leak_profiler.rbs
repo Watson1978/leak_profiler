@@ -8,10 +8,11 @@ class LeakProfiler
   # @rbs interval: Integer
   # @rbs max_allocations: Integer
   # @rbs max_referrers: Integer
+  # @rbs max_sample_objects: Integer
   # @rbs logger: untyped
   # @rbs filename: String
   # @rbs return: self
-  def report: (?interval: Integer, ?max_allocations: Integer, ?max_referrers: Integer, ?logger: untyped, ?filename: String) -> self
+  def report: (?interval: Integer, ?max_allocations: Integer, ?max_referrers: Integer, ?max_sample_objects: Integer, ?logger: untyped, ?filename: String) -> self
 
   # @rbs interval: Integer
   # @rbs filename: String

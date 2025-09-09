@@ -21,13 +21,14 @@ class LeakProfiler
   # @rbs interval: Integer
   # @rbs max_allocations: Integer
   # @rbs max_referrers: Integer
+  # @rbs max_sample_objects: Integer
   # @rbs logger: untyped
   # @rbs filename: String
   # @rbs return: self
-  def report(interval: 30, max_allocations: 10, max_referrers: 3, logger: nil, filename: nil)
+  def report(interval: 30, max_allocations: 10, max_referrers: 3, max_sample_objects: 100, logger: nil, filename: nil)
     filename ||= "leak_profiler-#{Process.pid}.log"
     logger ||= Logger.new(File.join(@output_dir, filename))
-    profiler = LeakProfiler::Allocations.new(logger: logger, interval: interval, max_allocations: max_allocations, max_referrers: max_referrers)
+    profiler = LeakProfiler::Allocations.new(logger: logger, interval: interval, max_allocations: max_allocations, max_referrers: max_referrers, max_sample_objects: max_sample_objects)
     profiler.report
     @threads << profiler.thread
 

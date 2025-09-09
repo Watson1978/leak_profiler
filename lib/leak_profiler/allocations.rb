@@ -3,6 +3,7 @@
 # rbs_inline: enabled
 
 require 'objspace'
+require 'set'
 
 class LeakProfiler
   class Allocations
@@ -15,11 +16,12 @@ class LeakProfiler
     # @rbs interval: Integer
     # @rbs max_allocations: Integer
     # @rbs max_referrers: Integer
-    def initialize(logger:, interval:, max_allocations:, max_referrers:)
+    def initialize(logger:, interval:, max_allocations:, max_referrers:, max_sample_objects:)
       @logger = logger
       @interval = interval
       @max_allocations = max_allocations
       @max_referrers = max_referrers
+      @max_sample_objects = max_sample_objects
     end
 
     def report
@@ -44,7 +46,12 @@ class LeakProfiler
             allocations[key][:metrics][:count] += 1
             allocations[key][:metrics][:bytes] += ObjectSpace.memsize_of(obj)
 
-            allocations[key][:sample_object] = obj
+            allocations[key][:sample_objects] ||= []
+            allocations[key][:sample_objects] << obj
+          end
+
+          allocations.each_value do |v|
+            v[:sample_objects] = v[:sample_objects].sample(@max_sample_objects)
           end
 
           report_allocations_class(allocations_by_class)
@@ -88,7 +95,7 @@ class LeakProfiler
 
       objs = allocations.reject { |k, _| k == UNKNOWN }
       sort(objs).take(@max_referrers).each do |key, value|
-        referrer_objects = detect_referrer_objects(value[:sample_object])
+        referrer_objects = detect_referrer_objects(value[:sample_objects])
 
         logs = referrer_objects.map do |r|
           klass = obj_class(r[:referrer_object])
@@ -102,12 +109,14 @@ class LeakProfiler
       end
     end
 
-    def detect_referrer_objects(object)
+    def detect_referrer_objects(objects)
       referrer_objects = []
+      objects_ids = objects.to_set(&:object_id)
+
       ObjectSpace.each_object.each do |obj|
         r = ObjectSpace.reachable_objects_from(obj)
         begin
-          if r&.any? { |o| o.object_id == object.object_id }
+          if r&.any? { |o| objects_ids.include?(o.object_id) }
             key = allocated_location(obj)
             referrer_objects << { referrer_object: obj, referrer_object_allocated_line: key }
           end

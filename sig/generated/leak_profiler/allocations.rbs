@@ -10,7 +10,7 @@ class LeakProfiler
     # @rbs interval: Integer
     # @rbs max_allocations: Integer
     # @rbs max_referrers: Integer
-    def initialize: (logger: untyped, interval: Integer, max_allocations: Integer, max_referrers: Integer) -> untyped
+    def initialize: (logger: untyped, interval: Integer, max_allocations: Integer, max_referrers: Integer, max_sample_objects: untyped) -> untyped
 
     def report: () -> untyped
 
@@ -22,7 +22,7 @@ class LeakProfiler
 
     def report_referrer_objects: (untyped allocations) -> untyped
 
-    def detect_referrer_objects: (untyped object) -> untyped
+    def detect_referrer_objects: (untyped objects) -> untyped
 
     def allocated_location: (untyped obj) -> untyped
 

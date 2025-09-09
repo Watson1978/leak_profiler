@@ -64,6 +64,7 @@ Referrers ----------------------------------------------------------------------
   * `interval` (default `30`): The interval in seconds for report.
   * `max_allocations` (default `10`): Outputs the specified number of objects that use a lot of memory.
   * `max_referrers` (default `3`): Outputs the number of references in order of the amount of memory used.
+  * `max_sample_objects` (default `100`): Sampling objects to detect referrer.
   * `logger` (defalut `nil`): Specify the logger object if you want to use custom logger.
   * `filename` (defalut `nil`): Specify the filename if you want to use custom filename.
 
