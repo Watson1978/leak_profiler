@@ -6,6 +6,9 @@ require 'objspace'
 
 class LeakProfiler
   class Allocations
+    UNKNOWN = '<unknown>:<unknown>'
+    private_constant :UNKNOWN
+
     attr_reader :thread
 
     # @rbs logger: untyped
@@ -37,8 +40,6 @@ class LeakProfiler
             end
 
             key = allocated_location(obj)
-            next unless key
-
             allocations[key][:metrics] ||= Hash.new { |h, k| h[k] = 0 }
             allocations[key][:metrics][:count] += 1
             allocations[key][:metrics][:bytes] += ObjectSpace.memsize_of(obj)
@@ -84,7 +85,9 @@ class LeakProfiler
       return if @max_referrers <= 0
 
       @logger.add(Logger::Severity::INFO, "Referrers #{"-" * 80}")
-      sort(allocations).take(@max_referrers).each do |key, value|
+
+      objs = allocations.reject { |k, _| k == UNKNOWN }
+      sort(objs).take(@max_referrers).each do |key, value|
         referrer_objects = detect_referrer_objects(value[:sample_object])
 
         logs = referrer_objects.map do |r|
@@ -106,8 +109,6 @@ class LeakProfiler
         begin
           if r&.any? { |o| o.equal?(object) }
             key = allocated_location(obj)
-            next unless key
-
             referrer_objects << { referrer_object: obj, referrer_object_allocated_line: key }
           end
         rescue StandardError
@@ -117,9 +118,12 @@ class LeakProfiler
     end
 
     def allocated_location(obj)
-      return unless ObjectSpace.allocation_sourcefile(obj)
+      file = ObjectSpace.allocation_sourcefile(obj)
+      return UNKNOWN if file.nil? || file.empty?
 
-      "#{ObjectSpace.allocation_sourcefile(obj)}:#{ObjectSpace.allocation_sourceline(obj)}"
+      line = ObjectSpace.allocation_sourceline(obj)
+
+      "#{file}:#{line}"
     end
 
     def sort(allocations)

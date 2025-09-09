@@ -2,6 +2,8 @@
 
 class LeakProfiler
   class Allocations
+    UNKNOWN: ::String
+
     attr_reader thread: untyped
 
     # @rbs logger: untyped
