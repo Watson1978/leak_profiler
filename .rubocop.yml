@@ -36,7 +36,7 @@ Layout/MultilineAssignmentLayout:
   Enabled: false
 
 Layout/LineLength:
-  Max: 180
+  Enabled: false
 
 Lint/IdentityComparison:
   Enabled: false
