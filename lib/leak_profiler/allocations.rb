@@ -107,7 +107,7 @@ class LeakProfiler
       ObjectSpace.each_object.each do |obj|
         r = ObjectSpace.reachable_objects_from(obj)
         begin
-          if r&.any? { |o| o.equal?(object) }
+          if r&.any? { |o| o.object_id == object.object_id }
             key = allocated_location(obj)
             referrer_objects << { referrer_object: obj, referrer_object_allocated_line: key }
           end

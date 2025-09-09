@@ -38,6 +38,9 @@ Layout/MultilineAssignmentLayout:
 Layout/LineLength:
   Max: 180
 
+Lint/IdentityComparison:
+  Enabled: false
+
 Lint/ConstantResolution:
   Enabled: false
 
