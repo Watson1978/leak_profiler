@@ -14,7 +14,7 @@ Rake::TestTask.new do |task|
   task.pattern = 'test/test_*.rb'
 end
 
-# Update RBS signature
+desc 'Update RBS signature'
 task :'rbs:update' do
   sh 'bundle exec rbs-inline --output lib'
 end
