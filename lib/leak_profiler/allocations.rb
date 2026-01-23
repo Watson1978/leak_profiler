@@ -16,12 +16,15 @@ class LeakProfiler
     # @rbs interval: Integer
     # @rbs max_allocations: Integer
     # @rbs max_referrers: Integer
-    def initialize(logger:, interval:, max_allocations:, max_referrers:, max_sample_objects:)
+    # @rbs max_sample_objects: Integer
+    # @rbs run_gc: bool
+    def initialize(logger:, interval:, max_allocations:, max_referrers:, max_sample_objects:, run_gc: false)
       @logger = logger
       @interval = interval
       @max_allocations = max_allocations
       @max_referrers = max_referrers
       @max_sample_objects = max_sample_objects
+      @run_gc = run_gc
     end
 
     def report
@@ -30,6 +33,8 @@ class LeakProfiler
           ObjectSpace.trace_object_allocations_start
           sleep(@interval)
           ObjectSpace.trace_object_allocations_stop
+
+          GC.start if @run_gc
 
           allocations = Hash.new { |h, k| h[k] = {} }
           allocations_by_class = Hash.new { |h, k| h[k] = 0 }

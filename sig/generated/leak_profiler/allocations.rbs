@@ -10,7 +10,9 @@ class LeakProfiler
     # @rbs interval: Integer
     # @rbs max_allocations: Integer
     # @rbs max_referrers: Integer
-    def initialize: (logger: untyped, interval: Integer, max_allocations: Integer, max_referrers: Integer, max_sample_objects: untyped) -> untyped
+    # @rbs max_sample_objects: Integer
+    # @rbs run_gc: bool
+    def initialize: (logger: untyped, interval: Integer, max_allocations: Integer, max_referrers: Integer, max_sample_objects: Integer, ?run_gc: bool) -> untyped
 
     def report: () -> untyped
 
