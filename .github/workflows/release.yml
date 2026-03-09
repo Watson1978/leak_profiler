@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
     environment: release
     steps:
       - uses: actions/checkout@v6
@@ -19,5 +18,4 @@ jobs:
       - uses: rubygems/configure-rubygems-credentials@v1.0.0
       - name: Publish gem
         run: |
-          gem build *.gemspec
-          gem push *.gem
+          bundle exec rake release:rubygem_push
