@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: '0 0 1 * *'
 
 permissions:
   contents: read
@@ -13,6 +15,12 @@ env:
   TESTOPTS: --verbose
 
 jobs:
+  ruby-versions:
+    uses: ruby/actions/.github/workflows/ruby_versions.yml@master
+    with:
+      engine: cruby
+      min_version: 3.1
+
   lint:
     runs-on: ubuntu-latest
 
@@ -45,21 +53,23 @@ jobs:
           bundle exec steep check
 
   test:
+    needs: ruby-versions
+    name: Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
-
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        ruby-version: ['3.4', '4.0']
-
-    name: Ruby ${{ matrix.ruby-version }} on ${{ matrix.os }}
+        ruby: ${{ fromJson(needs.ruby-versions.outputs.versions) }}
+        exclude:
+          - ruby: head
     steps:
     - uses: actions/checkout@v6
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
+        ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
     - name: Run tests
       run: bundle exec rake
